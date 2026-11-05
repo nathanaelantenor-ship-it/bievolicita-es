@@ -1,6 +1,6 @@
 {
   "project": "Bievo Licitações",
-  "release": "bievo-typewriter-20261105-r6",
+  "release": "bievo-about-20261105-r7",
   "source": "main",
   "features": [
     "hero-zoom",
@@ -13,6 +13,7 @@
     "typing-faq",
     "typing-click-replay",
     "hero-proposito-reveal",
-    "typewriter-viewport-refinement"
+    "typewriter-viewport-refinement",
+    "evandro-proportional-layout"
   ]
 }
