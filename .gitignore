@@ -1,0 +1,21 @@
+# Sistema operacional e editores
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Dependências e builds
+node_modules/
+dist/
+build/
+coverage/
+.cache/
+
+# Segredos e ambiente
+.env
+.env.*
+!.env.example
+
+# Arquivos temporários
+*.log
+*.tmp
