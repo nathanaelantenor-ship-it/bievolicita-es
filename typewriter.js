@@ -80,7 +80,7 @@
       if (show) {
         if (!reducedMotion.matches) entryTimer = window.setTimeout(() => {
           if (visible && state === 'idle') begin();
-        },550);
+        },500);
       } else restore('idle');
     };
     const replay = () => { restore('idle'); begin(true); };
@@ -95,10 +95,10 @@
   if ('IntersectionObserver' in window) {
     const observer = new IntersectionObserver(entries => {
       for (const entry of entries) {
-        const visible = entry.isIntersecting && entry.intersectionRatio >= .57;
+        const visible = entry.isIntersecting && entry.intersectionRatio >= .42;
         controllers.get(entry.target)?.onVisibility(visible);
       }
-    },{threshold:[0,.57,.8],rootMargin:'0px 0px -10% 0px'});
+    },{threshold:[0,.42,.75],rootMargin:'0px 0px -10% 0px'});
     for (const heading of controllers.keys()) observer.observe(heading);
     reducedMotion.addEventListener?.('change',() => {
       if (reducedMotion.matches) for (const controller of controllers.values()) controller.restore('idle');
