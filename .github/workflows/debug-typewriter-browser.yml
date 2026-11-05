@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - fix/typewriter-browser-e2e
+      - fix/mobile-hero-arrow-typewriter-r8
   workflow_dispatch:
 permissions:
   contents: read

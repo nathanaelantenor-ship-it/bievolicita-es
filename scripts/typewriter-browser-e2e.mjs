@@ -9,6 +9,20 @@ for(const view of [{name:'desktop',width:1440,height:900},{name:'mobile',width:3
  page.on('response',r=>{if(/typewriter\.js/.test(r.url()))network.push({url:r.url(),status:r.status()})});
  await page.goto(url,{waitUntil:'domcontentloaded',timeout:25000});
  await page.waitForTimeout(2000);
+ const svgArrows=await page.locator('.bievo-arrow-icon').count();
+ if(svgArrows!==10)throw Error('Setas vetoriais ausentes '+view.name+': '+svgArrows);
+ if(view.name==='mobile'){
+   const geometry=await page.evaluate(()=>{
+     const hero=document.querySelector('.hero').getBoundingClientRect();
+     const photo=document.querySelector('.hero-visual').getBoundingClientRect();
+     const img=document.querySelector('.hero-visual>img');
+     return {top:Math.abs(photo.top-hero.top),bottom:Math.abs(photo.bottom-hero.bottom),
+       width:Math.abs(photo.width-hero.width),height:Math.abs(photo.height-hero.height),
+       fit:getComputedStyle(img).objectFit};
+   });
+   if(geometry.top>2||geometry.bottom>2||geometry.width>2||geometry.height>2||geometry.fit!=='cover')
+      throw Error('Imagem da Home não cobre toda a área mobile: '+JSON.stringify(geometry));
+ }
  const data={view:view.name,version:await page.locator('html').getAttribute('data-site-revision'),reducedMotion:await page.evaluate(()=>matchMedia('(prefers-reduced-motion: reduce)').matches),errors,network,headings:[]};
  for(const id of ['opp-title','method-title','faq-title']){
    const locator=page.locator('#'+id);

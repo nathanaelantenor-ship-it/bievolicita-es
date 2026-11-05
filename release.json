@@ -1,6 +1,6 @@
 {
   "project": "Bievo Licitações",
-  "release": "bievo-about-20261105-r7",
+  "release": "bievo-mobilemotion-20261105-r8",
   "source": "main",
   "features": [
     "hero-zoom",
@@ -14,6 +14,9 @@
     "typing-click-replay",
     "hero-proposito-reveal",
     "typewriter-viewport-refinement",
-    "evandro-proportional-layout"
+    "evandro-proportional-layout",
+    "svg-arrow-cross-device",
+    "mobile-full-bleed-hero",
+    "typewriter-desktop-auto-reentry"
   ]
 }
