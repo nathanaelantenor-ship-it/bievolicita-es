@@ -1,0 +1,24 @@
+name: Conferir proporção Evandro (Chrome)
+on:
+  push:
+    branches: [fix/evandro-text-photo-proportion-r7]
+permissions:
+  contents: read
+jobs:
+  visual-layout:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Dependências para análise no Chrome
+        run: |
+          npm install --no-save --ignore-scripts playwright@1.56.1
+          command -v google-chrome || command -v google-chrome-stable
+      - name: Medir alinhamento da imagem, título e assinatura
+        run: |
+          python3 -m http.server 8765 --bind 127.0.0.1 >/tmp/bievo-about-server.log 2>&1 &
+          sleep 2
+          node scripts/about-layout-browser-check.mjs
