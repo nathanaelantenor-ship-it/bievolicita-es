@@ -21,7 +21,7 @@ h2{font-size:clamp(2.8rem,4.3vw,4.85rem)}
 /* The supplied logo is a square, transparent artboard with a horizontal wordmark.
    Crop only its surrounding transparent canvas in CSS rather than stretching or upscaling it. */
 .brand{width:230px;height:99px;display:block;justify-self:start;overflow:hidden}
-.brand img{width:230px;height:99px;max-width:none;max-height:none;object-fit:cover;object-position:center}
+.brand img{width:230px;height:99px;max-width:none;max-height:none;object-fit:contain;object-position:center}
 .nav{justify-self:center;display:flex;align-items:center;justify-content:center;gap:3px;background:rgba(246,243,237,.11);border:1px solid rgba(246,243,237,.12);padding:6px 9px;border-radius:90px;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
 .nav a{color:var(--cream);font-weight:600;font-size:.81rem;white-space:nowrap;opacity:.91;padding:10px 13px;border-radius:60px;transition:background .2s,opacity .2s}
 .nav a:hover{opacity:1;background:rgba(246,243,237,.13)}
