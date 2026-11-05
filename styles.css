@@ -243,3 +243,15 @@ h2{font-size:clamp(2.8rem,4.3vw,4.85rem)}
 /* Títulos reexecutáveis: interação acessível sem mudar o design system. */
 #opp-title[data-typewriter],#method-title[data-typewriter],#faq-title[data-typewriter]{cursor:pointer}
 #opp-title[data-typewriter]:focus-visible,#method-title[data-typewriter]:focus-visible,#faq-title[data-typewriter]:focus-visible{outline:2px solid var(--camel);outline-offset:6px;border-radius:4px}
+
+/* Evandro / Quem está à frente — equilíbrio entre fotografia (3/5) e texto (2/5).
+   O retrato começa junto ao título e termina alinhado com a assinatura EM.
+   O ajuste desktop preserva as fontes, cores, texto e composição mobile originais. */
+@media (min-width:961px){
+  .about-grid{grid-template-columns:minmax(0,3fr) minmax(0,2fr);column-gap:clamp(32px,3.4vw,56px);align-items:stretch}
+  .about-photo{margin-top:42px;min-height:clamp(585px,44vw,710px);align-self:stretch}
+  .about-text{min-width:0;display:flex;flex-direction:column}
+  .about-text h2{font-size:clamp(3rem,3.45vw,4.05rem);line-height:1.09;margin:19px 0 25px;text-wrap:balance}
+  .about-text p{font-size:clamp(.96rem,1vw,1.04rem);line-height:1.7;margin-bottom:17px}
+  .about-text .signature{margin-top:auto;padding-top:22px}
+}
