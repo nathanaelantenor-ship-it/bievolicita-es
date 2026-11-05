@@ -1,0 +1,14 @@
+{
+  "project": "Bievo Licitações",
+  "release": "bievo-motion-20261105-r2",
+  "source": "main",
+  "features": [
+    "hero-zoom",
+    "typing-oportunidades",
+    "typing-metodo",
+    "audience-hover",
+    "services-hover",
+    "testimonials-hover",
+    "responsive-touch"
+  ]
+}
