@@ -110,6 +110,8 @@
     if (document.hidden) return;
     for (const [heading, controller] of controllers) {
       const box = heading.getBoundingClientRect();
+      // Visibilidade real depende de dimensões; não sobrescrever o observer em ambientes sem layout.
+      if (box.width === 0 && box.height === 0) continue;
       const inView = box.bottom > 0 && box.top < window.innerHeight &&
         box.right > 0 && box.left < window.innerWidth;
       controller.onVisibility(inView);
