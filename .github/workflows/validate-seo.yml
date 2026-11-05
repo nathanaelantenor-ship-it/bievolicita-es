@@ -1,0 +1,23 @@
+name: SEO e Speed Insights
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  validate-seo:
+    name: Verificar metadados, sitemap e pacote npm
+    runs-on: ubuntu-latest
+    steps:
+      - name: Obter código
+        uses: actions/checkout@v4
+      - name: Configurar Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Instalar dependências npm
+        run: npm install --no-audit --no-fund
+      - name: Validar SEO técnico
+        run: npm run check:seo
