@@ -1,0 +1,37 @@
+name: Captura integral do site - WEB e MOBILE
+on:
+  push:
+    branches: [preview/gerar-capturas-integrais]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  screenshots:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Instalar Playwright
+        run: |
+          npm install --no-save --no-audit --no-fund playwright@1.56.1
+          npx playwright install --with-deps chromium
+      - name: Registrar screenshots de todo o site
+        run: node scripts/capture-full-site.mjs
+      - name: Montagem comparativa hi-res
+        run: |
+          python -m pip install pillow
+          python scripts/combine-previews.py
+      - name: Entregar imagens
+        uses: actions/upload-artifact@v4
+        with:
+          name: bievo-previews-website-completo
+          path: |
+            previews/Bievo-Site-Completo-WEB.png
+            previews/Bievo-Site-Completo-MOBILE.png
+            previews/Bievo-Preview-WEB-e-MOBILE.jpg
+            previews/metadata.json
+          if-no-files-found: error
+          compression-level: 0
