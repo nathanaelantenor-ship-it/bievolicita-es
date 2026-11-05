@@ -41,71 +41,7 @@
 
 /* BIEVO — interação progressiva, sem dependências ou alterações na copy. */
 (() => {
-  const reduceMotion=window.matchMedia('(prefers-reduced-motion: reduce)');
-  const titles=[document.querySelector('#opp-title'),document.querySelector('#method-title')].filter(Boolean);
-  if (!reduceMotion.matches && 'IntersectionObserver' in window) {
-    const observer=new IntersectionObserver((entries) => {
-      for (const entry of entries) {
-        if (!entry.isIntersecting) continue;
-        observer.unobserve(entry.target);
-        const heading=entry.target;
-        if (heading.dataset.typed==='true') continue;
-        const em=heading.querySelector('em');
-        if (!em) continue;
-        const regular=heading.firstChild?.textContent?.trim() ?? '';
-        const emphasis=em.textContent.trim();
-        if (!regular || !emphasis) continue;
-        heading.dataset.typed='true';
-        const original=[...heading.childNodes];
-        const ghost=document.createElement('span');
-        ghost.className='typing-ghost';
-        ghost.setAttribute('aria-hidden','true');
-        ghost.append(...original);
-        const output=document.createElement('span');
-        output.className='typing-output';
-        output.setAttribute('aria-hidden','true');
-        const regularNode=document.createTextNode('');
-        const emphasisEl=document.createElement('em');
-        const caret=document.createElement('span');
-        caret.className='typing-caret';
-        caret.setAttribute('aria-hidden','true');
-        output.append(regularNode,caret);
-        heading.setAttribute('aria-label',regular+' '+emphasis);
-        heading.classList.add('typing-title');
-        heading.append(ghost,output);
-        let pos=0;
-        let startedEmphasis=false;
-        function finish(){
-          heading.replaceChildren(...original);
-          heading.classList.remove('typing-title');
-          heading.removeAttribute('aria-label');
-        }
-        function tick(){
-          if (!heading.isConnected || reduceMotion.matches || document.hidden) {
-            finish();
-            return;
-          }
-          if (pos < regular.length) {
-            regularNode.textContent=regular.slice(0,++pos);
-          } else if (!startedEmphasis) {
-            startedEmphasis=true;
-            output.insertBefore(document.createElement('br'),caret);
-            output.insertBefore(emphasisEl,caret);
-          } else if (pos < regular.length+emphasis.length) {
-            pos++;
-            emphasisEl.textContent=emphasis.slice(0,pos-regular.length);
-          } else {
-            finish();
-            return;
-          }
-          window.setTimeout(tick,39);
-        }
-        tick();
-      }
-    },{threshold:.3,rootMargin:'0px 0px -8% 0px'});
-    titles.forEach(title => observer.observe(title));
-  }
-
+  // Efeito de digitação isolado em typewriter.js para evitar conflitos.
   // Em telas sensíveis ao toque: toque alterna um card por grupo.
   const groups=['.audience-grid','.services-grid','.testimonials-grid'];
   const touch=window.matchMedia('(hover: none), (pointer: coarse)');

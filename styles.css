@@ -159,7 +159,7 @@ h2{font-size:clamp(2.8rem,4.3vw,4.85rem)}
 .typing-title > .typing-output{position:absolute;inset:0;display:block}
 .typing-caret{
   display:inline-block;vertical-align:-.08em;
-  width:2px;height:.85em;margin-left:3px;background:var(--camel);
+  width:3px;height:.87em;margin-left:4px;background:var(--camel);
   animation:bievo-caret 750ms steps(1,end) infinite;
 }
 @keyframes bievo-caret{50%{opacity:0}}
