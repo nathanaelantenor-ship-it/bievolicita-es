@@ -1,5 +1,5 @@
 import { chromium } from 'playwright';
-const url='https://bievolicitacoes-gules.vercel.app/?e2e=typewriter-'+Date.now();
+const url=process.env.BIEVO_TEST_URL||'https://bievolicitacoes-gules.vercel.app/?e2e=typewriter-'+Date.now();
 const browser=await chromium.launch({headless:true,channel:'chrome',args:['--no-sandbox']});
 for(const view of [{name:'desktop',width:1440,height:900},{name:'mobile',width:390,height:844}]){
  const context=await browser.newContext({viewport:{width:view.width,height:view.height},reducedMotion:'no-preference'});
@@ -13,11 +13,16 @@ for(const view of [{name:'desktop',width:1440,height:900},{name:'mobile',width:3
  for(const id of ['opp-title','method-title','faq-title']){
    const locator=page.locator('#'+id);
    await locator.scrollIntoViewIfNeeded();
-   await page.waitForTimeout(750);
+   await page.waitForTimeout(1300);
    let first=await locator.evaluate(e=>({state:e.dataset.typewriterState,txt:e.querySelector('.typing-output')?.textContent||null,full:e.textContent.slice(0,80),display:getComputedStyle(e.querySelector('.typing-output')||e).display,rect:Math.round(e.getBoundingClientRect().top)}));
    await page.waitForTimeout(1350);
    let later=await locator.evaluate(e=>({state:e.dataset.typewriterState,txt:e.querySelector('.typing-output')?.textContent||null,full:e.textContent.slice(0,80)}));
    data.headings.push({id,first,later});
+   if(first.state!=='typing'||!first.txt||!later.txt||later.txt.length<=first.txt.length)throw Error('Digitação falhou '+view.name+' '+id+' '+JSON.stringify({first,later}));
+   await locator.click();
+   await page.waitForTimeout(590);
+   const replay=await locator.evaluate(e=>({state:e.dataset.typewriterState,txt:e.querySelector('.typing-output')?.textContent||null}));
+   if(replay.state!=='typing'||!replay.txt)throw Error('Replay por clique falhou '+view.name+' '+id+' '+JSON.stringify(replay));
    await page.evaluate(()=>window.scrollTo({top:0,behavior:'instant'}));
    await page.waitForTimeout(450);
  }
