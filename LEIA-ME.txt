@@ -1,0 +1,34 @@
+BIEVO LICITAÇÕES — Website institucional V2 / revisão visual
+
+COMO VISUALIZAR
+1. Extraia o ZIP inteiro para uma pasta.
+2. Abra index.html no navegador (Chrome, Edge, Firefox ou Safari).
+3. Mantenha index.html, styles.css, script.js, site-config.js e assets/ juntos.
+
+O QUE FOI ALTERADO
+- Composição de hero mais editorial com fotografia corporativa, cantos arredondados,
+  navegação flutuante e indicadores integrados.
+- Serviços em cartões navegáveis por setas, rolagem e gesto de toque.
+- Layout e ritmo visual das seções, com uso dos mockups e fotografias enviados.
+- Logotipo e símbolo PNG transparentes originais enviados pelo usuário.
+- Melhor distribuição da hierarquia, espaçamentos, superfícies, imagens, cards.
+- Refinamentos de responsividade para celular, tablet e desktop.
+
+O QUE FOI PRESERVADO
+- Todo o texto público da V1 (títulos, subtítulos, CTAs, parágrafos, FAQ e depoimentos).
+- Famílias tipográficas DM Sans e Playfair Display e suas funções.
+- Cores de identidade #041E41 (azul), #A68772 (camel), #F6F3ED (off-white), #2A3038 (grafite).
+- Funcionalidades do formulário, navegação, FAQ e configuração de contato.
+
+LINKS E FORMULÁRIO
+- Preencher o número oficial de WhatsApp com DDI+DDD no site-config.js.
+- Caso não haja número definido, o formulário abre o aplicativo de e-mail.
+- Atualizar / confirmar e-mail, Instagram, domínio e política de privacidade antes de publicar.
+
+ATENÇÃO PARA PUBLICAÇÃO
+- Validar autorização expressa para nomes e depoimentos dos clientes.
+- Confirmar direitos de uso das imagens e se Evandro deseja foto pessoal oficial.
+- A seção do CEO usa imagens institucionais e não se apresenta como retrato pessoal.
+- A experiência de 10+ anos pertence ao CEO, não é a idade da empresa.
+- Não publicar números além dos referenciados nos materiais.
+- A V2 é um protótipo funcional com recursos locais, ainda não hospedado.
