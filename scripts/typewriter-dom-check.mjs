@@ -19,11 +19,13 @@ const originals=headings.map(h=>h.textContent);
 for(const heading of headings){
   observed[0].cb([{target:heading,isIntersecting:true,intersectionRatio:.6}]);
   assert.equal(heading.dataset.typewriterState,'idle',heading.id+' deve aguardar o centro da viewport');
+}
+await new Promise(resolve=>setTimeout(resolve,1150));
+for(const heading of headings) {
+  assert.equal(heading.dataset.typewriterState,'typing',heading.id+' não iniciou após a pausa');
   assert(heading.querySelector('.typing-ghost'),heading.id+' perdeu reserva de altura');
   assert(heading.querySelector('.typing-caret'),heading.id+' não tem cursor');
 }
-await new Promise(resolve=>setTimeout(resolve,1150));
-for(const heading of headings)assert.equal(heading.dataset.typewriterState,'typing',heading.id+' não iniciou após a pausa');
 for(let i=0;i<headings.length;i++){
   const heading=headings[i];
   const output=heading.querySelector('.typing-output');
