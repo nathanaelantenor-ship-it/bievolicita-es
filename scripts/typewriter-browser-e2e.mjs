@@ -1,6 +1,6 @@
 import { chromium } from 'playwright';
 const url='https://bievolicitacoes-gules.vercel.app/?e2e=typewriter-'+Date.now();
-const browser=await chromium.launch({headless:true});
+const browser=await chromium.launch({headless:true,channel:'chrome',args:['--no-sandbox']});
 for(const view of [{name:'desktop',width:1440,height:900},{name:'mobile',width:390,height:844}]){
  const context=await browser.newContext({viewport:{width:view.width,height:view.height},reducedMotion:'no-preference'});
  const page=await context.newPage();
