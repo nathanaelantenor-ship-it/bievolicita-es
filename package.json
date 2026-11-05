@@ -1,0 +1,12 @@
+{
+  "name": "bievo-licitacoes",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Site institucional da Bievo Licitações",
+  "scripts": {
+    "check:seo": "node scripts/seo-check.mjs"
+  },
+  "dependencies": {
+    "@vercel/speed-insights": "2.0.0"
+  }
+}
