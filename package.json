@@ -4,7 +4,8 @@
   "private": true,
   "description": "Site institucional da Bievo Licitações",
   "scripts": {
-    "check:seo": "node scripts/seo-check.mjs"
+    "check:seo": "node scripts/seo-check.mjs",
+    "check:motion": "node --check script.js && node scripts/motion-check.mjs"
   },
   "dependencies": {
     "@vercel/speed-insights": "2.0.0"

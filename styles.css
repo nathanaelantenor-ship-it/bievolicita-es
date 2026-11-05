@@ -131,3 +131,110 @@ h2{font-size:clamp(2.8rem,4.3vw,4.85rem)}
 @media(max-width:650px){.floating-card{right:105px}}
 /* On compact screens the photographic hero works better without the decorative overlay card. */
 @media(max-width:650px){.hero-visual .floating-card{display:none}}
+
+
+/* BIEVO — animações editoriais, sem alterar a identidade visual ou a copy. */
+/* Zoom apenas na fotografia: o contêiner mantém o recorte e as bordas originais. */
+.hero-visual > img{
+  --hero-zoom:1.038;
+  animation:bievo-hero-breathe 19s ease-in-out infinite alternate;
+  transform-origin:58% 48%;
+  backface-visibility:hidden;
+}
+@keyframes bievo-hero-breathe{
+  from{transform:scale(1)}
+  to{transform:scale(var(--hero-zoom))}
+}
+@media(max-width:650px){
+  .hero-visual > img{
+    --hero-zoom:1.023;
+    transform-origin:65% 50%;
+    animation-duration:24s;
+  }
+}
+
+/* Título digitado por caracteres, ocupando sempre a altura original (sem CLS). */
+.typing-title{position:relative}
+.typing-title > .typing-ghost{display:block;visibility:hidden}
+.typing-title > .typing-output{position:absolute;inset:0;display:block}
+.typing-caret{
+  display:inline-block;vertical-align:-.08em;
+  width:2px;height:.85em;margin-left:3px;background:var(--camel);
+  animation:bievo-caret 750ms steps(1,end) infinite;
+}
+@keyframes bievo-caret{50%{opacity:0}}
+
+/* O único card colorido é aquele em foco, hover ou selecionado por toque. */
+.audience-grid > .audience-card.motion-card,
+.services-grid > .service.motion-card,
+.testimonials-grid > .testimonial.motion-card{
+  position:relative;isolation:isolate;overflow:hidden;
+  background:#fff;color:var(--navy);border:1px solid rgba(4,30,65,.08);
+  transition:background-color .35s ease,color .35s ease,border-color .35s ease,box-shadow .35s ease,transform .35s ease;
+}
+.motion-card{cursor:pointer}
+.motion-card > *{position:relative;z-index:1}
+.audience-grid > .audience-card .audience-icon{position:absolute;z-index:2}
+.audience-grid > .audience-card:nth-child(2)::after{content:none}
+.audience-grid > .audience-card.motion-card p,
+.services-grid > .service.motion-card p{color:#5b6873;transition:color .35s ease}
+.testimonials-grid > .testimonial.motion-card .testimonial-footer span{color:#65717a;transition:color .35s ease}
+.audience-grid > .audience-card.motion-card .audience-icon{color:var(--navy);border-color:rgba(4,30,65,.19);transition:color .35s ease,border-color .35s ease}
+.testimonials-grid > .testimonial.motion-card .testimonial-footer{border-color:rgba(4,30,65,.15);transition:border-color .35s ease}
+.services-grid > .service.motion-card > span{color:#8e705a;transition:color .35s ease}
+.motion-card::before{
+  content:'';position:absolute;inset:0;z-index:0;pointer-events:none;
+  background-image:none;background-position:center;background-size:cover;
+  opacity:0;transition:opacity .42s ease;
+}
+.services-grid > .service.motion-card::before{background-image:none}
+
+/* Fotos institucionais já aprovadas no projeto; carregadas sob interação. */
+.audience-grid > .audience-card:nth-child(1){--motion-photo:url('https://lh3.googleusercontent.com/d/1vwzhaYFvP94gkDsNDdj7dpjgG5plxVsX')}
+.audience-grid > .audience-card:nth-child(2){--motion-photo:url('https://lh3.googleusercontent.com/d/1bYV70XYbSoY9YJ9P8otwKbV1qhfs0_7c')}
+.services-grid > .service:nth-child(1){--motion-photo:url('https://lh3.googleusercontent.com/d/1vwzhaYFvP94gkDsNDdj7dpjgG5plxVsX')}
+.services-grid > .service:nth-child(2){--motion-photo:url('https://lh3.googleusercontent.com/d/1WYdj_9bgyXwSVtNODzCStiFQjQm_kRhK')}
+.services-grid > .service:nth-child(3){--motion-photo:url('https://lh3.googleusercontent.com/d/1vwzhaYFvP94gkDsNDdj7dpjgG5plxVsX')}
+.services-grid > .service:nth-child(4){--motion-photo:url('https://lh3.googleusercontent.com/d/1bYV70XYbSoY9YJ9P8otwKbV1qhfs0_7c')}
+.services-grid > .service:nth-child(5){--motion-photo:url('https://lh3.googleusercontent.com/d/1WYdj_9bgyXwSVtNODzCStiFQjQm_kRhK')}
+
+/* Foco de teclado e seleção por toque. */
+.motion-card:is(.is-active,:focus-visible,:focus-within){
+  background:var(--navy);color:var(--cream);
+  border-color:rgba(166,135,114,.65);
+  box-shadow:0 16px 30px rgba(4,30,65,.12);
+}
+.motion-card:is(.is-active,:focus-visible,:focus-within)::before{
+  background-image:linear-gradient(110deg,rgba(4,30,65,.96),rgba(4,30,65,.80)),var(--motion-photo,linear-gradient(#041e41,#041e41));
+  opacity:1;
+}
+.motion-card:is(.is-active,:focus-visible,:focus-within) p{color:#e0e6ed!important}
+.motion-card:is(.is-active,:focus-visible,:focus-within) .audience-icon{color:#fff;border-color:rgba(255,255,255,.4)}
+.motion-card:is(.is-active,:focus-visible,:focus-within) .testimonial-footer{border-color:rgba(255,255,255,.25)}
+.motion-card:is(.is-active,:focus-visible,:focus-within) .testimonial-footer span{color:#cbd5df}
+.motion-card:is(.is-active,:focus-visible,:focus-within) > span{color:#d1b5a2}
+@media(hover:hover) and (pointer:fine){
+  .motion-card:hover{
+    background:var(--navy);color:var(--cream);
+    border-color:rgba(166,135,114,.65);
+    box-shadow:0 16px 30px rgba(4,30,65,.12);
+    transform:translateY(-3px);
+  }
+  .motion-card:hover::before{
+    background-image:linear-gradient(110deg,rgba(4,30,65,.96),rgba(4,30,65,.80)),var(--motion-photo,linear-gradient(#041e41,#041e41));
+    opacity:1;
+  }
+  .motion-card:hover p{color:#e0e6ed!important}
+  .motion-card:hover .audience-icon{color:#fff;border-color:rgba(255,255,255,.4)}
+  .motion-card:hover .testimonial-footer{border-color:rgba(255,255,255,.25)}
+  .motion-card:hover .testimonial-footer span{color:#cbd5df}
+  .motion-card:hover > span{color:#d1b5a2}
+}
+/* O CTA de serviços mantém o camel original e não participa da interação. */
+.services-grid > .service-cta{cursor:auto}
+.motion-card:focus-visible{outline:3px solid var(--camel);outline-offset:3px}
+@media(prefers-reduced-motion:reduce){
+  .hero-visual > img{animation:none!important;transform:none!important}
+  .motion-card,.motion-card::before{transition:none!important;transform:none!important}
+  .typing-caret{animation:none!important}
+}
