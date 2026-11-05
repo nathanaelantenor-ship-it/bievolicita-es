@@ -255,3 +255,33 @@ h2{font-size:clamp(2.8rem,4.3vw,4.85rem)}
   .about-text p{font-size:clamp(.96rem,1vw,1.04rem);line-height:1.7;margin-bottom:17px}
   .about-text .signature{margin-top:auto;padding-top:22px}
 }
+
+
+/* Mobile: a imagem de terno cobre o card da Home de cima a baixo.
+   object-fit:cover preserva proporções e impede bordas vazias. */
+@media(max-width:650px){
+  .hero-visual{
+    top:0;right:0;bottom:0;left:0;
+    width:100%;height:100%;
+  }
+  .hero-visual > img{
+    width:100%;height:100%;
+    object-fit:cover;object-position:62% 50%;
+    transform-origin:62% 50%;
+    filter:saturate(.82) contrast(1.04) brightness(.90);
+  }
+  .hero-visual-overlay{
+    background:
+      linear-gradient(180deg,rgba(4,30,65,.82) 0%,rgba(4,30,65,.67) 29%,rgba(4,30,65,.30) 60%,rgba(4,30,65,.91) 100%),
+      linear-gradient(90deg,rgba(4,30,65,.47),rgba(4,30,65,.02) 95%);
+  }
+}
+@media(max-width:370px){
+  .hero-visual{top:0;height:100%}
+}
+/* SVG vetorial único em todos os botões, inclusive no Android/Brave.
+   Não depende do glifo/emoji escolhido pelo sistema operacional. */
+.bievo-arrow-icon{display:inline-block;flex:none;width:1.05em;height:1.05em;vertical-align:-.13em;stroke:currentColor}
+.btn span .bievo-arrow-icon{width:18px;height:18px}
+.contact-whatsapp span .bievo-arrow-icon{width:19px;height:19px}
+.audience-icon .bievo-arrow-icon{width:23px;height:23px}

@@ -1,4 +1,4 @@
-/* Bievo: digitação no centro da tela, replay por clique/toque. */
+/* Bievo: digitação automática em desktop/mobile; replay ao retornar à seção ou aba. */
 (() => {
   const ids = ['opp-title', 'method-title', 'faq-title'];
   const headings = ids.map(id => document.getElementById(id)).filter(Boolean);
@@ -80,7 +80,7 @@
       if (show) {
         if (!reducedMotion.matches) entryTimer = window.setTimeout(() => {
           if (visible && state === 'idle') begin();
-        },500);
+        },130);
       } else restore('idle');
     };
     const replay = () => { restore('idle'); begin(true); };
@@ -95,13 +95,42 @@
   if ('IntersectionObserver' in window) {
     const observer = new IntersectionObserver(entries => {
       for (const entry of entries) {
-        const visible = entry.isIntersecting && entry.intersectionRatio >= .42;
+        const visible = entry.isIntersecting && entry.intersectionRatio > 0;
         controllers.get(entry.target)?.onVisibility(visible);
       }
-    },{threshold:[0,.42,.75],rootMargin:'0px 0px -10% 0px'});
+    },{threshold:[0,.01,.15,.45],rootMargin:'0px 0px 0px 0px'});
     for (const heading of controllers.keys()) observer.observe(heading);
     reducedMotion.addEventListener?.('change',() => {
-      if (reducedMotion.matches) for (const controller of controllers.values()) controller.restore('idle');
+      for (const controller of controllers.values()) controller.onVisibility(false);
+      if (!reducedMotion.matches) window.requestAnimationFrame(syncViewport);
     });
   }
+  // Cobre abertura da página, back/forward cache e retorno de abas sem exigir clique.
+  function syncViewport() {
+    if (document.hidden) return;
+    for (const [heading, controller] of controllers) {
+      const box = heading.getBoundingClientRect();
+      const inView = box.bottom > 0 && box.top < window.innerHeight &&
+        box.right > 0 && box.left < window.innerWidth;
+      controller.onVisibility(inView);
+    }
+  }
+  document.addEventListener('visibilitychange',() => {
+    if (document.hidden) {
+      for (const controller of controllers.values()) controller.onVisibility(false);
+    } else {
+      window.requestAnimationFrame(syncViewport);
+    }
+  });
+  window.addEventListener('pageshow',(event) => {
+    if (event.persisted) {
+      for (const controller of controllers.values()) controller.onVisibility(false);
+    }
+    window.requestAnimationFrame(syncViewport);
+  });
+  if (!('IntersectionObserver' in window)) {
+    window.addEventListener('scroll',syncViewport,{passive:true});
+    window.addEventListener('resize',syncViewport,{passive:true});
+  }
+  window.requestAnimationFrame(syncViewport);
 })();

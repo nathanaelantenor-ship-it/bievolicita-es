@@ -1,13 +1,13 @@
 // Verifica o HTML, CSS e JavaScript realmente servidos no domínio público.
 // A Vercel pode informar deploy "Ready" enquanto um domínio ainda entrega código antigo.
 const origin='https://bievolicitacoes-gules.vercel.app';
-const release='bievo-about-20261105-r7';
+const release='bievo-mobilemotion-20261105-r8';
 const checks=[
   {path:'/release.json',tokens:['"release": "'+release+'"']},
   {path:'/',tokens:['data-site-revision="'+release+'"','class="audience-card motion-card"','class="service motion-card"','class="testimonial featured motion-card"','styles.css?v='+release,'script.js?v='+release,'typewriter.js?v='+release,'id="opp-title" data-typewriter="scroll" tabindex="0"','id="method-title" data-typewriter="scroll" tabindex="0"','id="faq-title" data-typewriter="scroll" tabindex="0"']},
-  {path:'/styles.css?v='+release,tokens:['bievo-hero-breathe','--hero-zoom:1.023','.typing-title','--motion-photo','bievo-purpose-reveal','.about-text .signature{margin-top:auto']},
+  {path:'/styles.css?v='+release,tokens:['bievo-hero-breathe','--hero-zoom:1.023','.typing-title','--motion-photo','bievo-purpose-reveal','.about-text .signature{margin-top:auto','.hero-visual{top:0;height:100%}', '.bievo-arrow-icon']},
   {path:'/script.js?v='+release,tokens:['touch.matches','is-active']},
-  {path:'/typewriter.js?v='+release,tokens:['IntersectionObserver','typing-ghost','typewriterState','method-title','opp-title','faq-title','112','entryTimer','addEventListener','entry.intersectionRatio >= .42']}
+  {path:'/typewriter.js?v='+release,tokens:['IntersectionObserver','typing-ghost','typewriterState','method-title','opp-title','faq-title','112','entryTimer','addEventListener','entry.intersectionRatio > 0','visibilitychange','pageshow']}
 ];
 const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
 const attempts=8;

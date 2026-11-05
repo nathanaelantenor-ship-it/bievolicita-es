@@ -18,7 +18,7 @@ const headings=ids.map(id=>window.document.getElementById(id));
 const originals=headings.map(h=>h.textContent);
 for(const heading of headings){
   observed[0].cb([{target:heading,isIntersecting:true,intersectionRatio:.6}]);
-  assert.equal(heading.dataset.typewriterState,'idle',heading.id+' deve aguardar o centro da viewport');
+  assert.equal(heading.dataset.typewriterState,'idle',heading.id+' deve aguardar o início da digitação');
 }
 await new Promise(resolve=>setTimeout(resolve,1150));
 for(const heading of headings) {
@@ -38,9 +38,9 @@ for(const heading of headings){
   assert.equal(heading.dataset.typewriterState,'idle','Saída não rearmou '+heading.id);
   assert(!heading.querySelector('.typing-output'),'Título não voltou ao texto normal');
   observed[0].cb([{target:heading,isIntersecting:true,intersectionRatio:.65}]);
-  assert.equal(heading.dataset.typewriterState,'idle','Entrada repetida deve aguardar a pausa: '+heading.id);
+  assert.equal(heading.dataset.typewriterState,'idle','Entrada repetida deve aguardar o início: '+heading.id);
 }
-await new Promise(resolve=>setTimeout(resolve,670));
+await new Promise(resolve=>setTimeout(resolve,480));
 for(const heading of headings)assert.equal(heading.dataset.typewriterState,'typing','Replay por scroll não iniciou: '+heading.id);
 for(const heading of headings)observed[0].cb([{target:heading,isIntersecting:false,intersectionRatio:0}]);
 const faq=headings[2];
@@ -54,4 +54,4 @@ assert.equal(reduced.window.document.getElementById('faq-title').textContent,ori
 reduced.window.document.getElementById('faq-title').click();
 assert.equal(reduced.window.document.getElementById('faq-title').dataset.typewriterState,'typing','Clique explícito deve iniciar mesmo com reduced motion');
 reduced.window.close();
-console.log('Digitação validada nos três títulos, replay, FAQ sem quebra forçada e movimento reduzido.');
+console.log('Digitação automática desktop/mobile validada nos três títulos, replay, FAQ e movimento reduzido.');
