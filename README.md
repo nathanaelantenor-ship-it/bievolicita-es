@@ -20,7 +20,15 @@ Desenvolver um site responsivo, profissional e orientado à geração de oportun
 - Validar desktop, tablet, mobile, acessibilidade e funcionamento antes de preparar uma atualização para `main`.
 
 ## Situação
-Estrutura inicial do repositório. O protótipo V2 anterior foi entregue como pacote local e seus arquivos de interface e recursos gráficos serão importados para o fluxo versionado; esta inicialização **não representa um site publicado**.
+A versão consolidada do website está em `main`, com identidade visual Bievo, CTA direto para WhatsApp, mockups, SEO, Speed Insights, animações e ajustes responsivos. Release de interface: `bievo-mobilemotion-20261105-r8`.
 
-## Pendências para publicação
-Confirmar WhatsApp, domínio/configuração de hospedagem, autorizações dos depoimentos e dados de contato oficiais.
+Os testes de código e navegação (desktop/mobile) foram aprovados. **A presença do código em `main` não confirma o deploy da Vercel**: a publicação depende de um build bem-sucedido na integração do projeto.
+
+## Publicação
+- Site público: https://bievolicitacoes-gules.vercel.app/
+- Repositório oficial: https://github.com/nathanaelantenor-ship-it/bievolicita-es
+- Branch de produção: `main`.
+- O último deploy consultado em 05/11/2026 falhou por limite de builds da conta Vercel. Após o limite ser liberado, publicar o HEAD de `main` e verificar a versão pública.
+- GitHub Pages é uma alternativa opcional, mas precisa ser ativado pelo administrador em **Settings → Pages → Source: GitHub Actions** antes de executar o workflow de deploy.
+
+O conteúdo principal, o logo, as cores e as fontes só devem mudar após aprovação do cliente.
