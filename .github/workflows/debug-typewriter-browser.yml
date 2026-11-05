@@ -1,0 +1,28 @@
+name: Diagnóstico navegador real - digitação
+on:
+  push:
+    branches:
+      - fix/typewriter-browser-e2e
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  debug-typewriter:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Preparar Playwright e Chrome
+        run: |
+          npm install --no-save --ignore-scripts playwright@1.56.1
+          command -v google-chrome || command -v google-chrome-stable || command -v chromium
+      - name: Abrir Bievo desktop e mobile e inspecionar 3 títulos
+        env:
+          BIEVO_TEST_URL: http://127.0.0.1:8765/
+        run: |
+          python3 -m http.server 8765 --bind 127.0.0.1 >/tmp/bievo-e2e-server.log 2>&1 &
+          sleep 2
+          node scripts/typewriter-browser-e2e.mjs
