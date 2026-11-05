@@ -20,4 +20,4 @@ jobs:
       - name: Instalar dependências npm
         run: npm install --no-audit --no-fund
       - name: Validar SEO técnico
-        run: npm run check:seo && npm run check:motion
+        run: npm run check:seo && npm run check:motion && npm run check:typewriter
