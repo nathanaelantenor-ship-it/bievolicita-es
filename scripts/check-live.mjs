@@ -1,13 +1,13 @@
 // Verifica o HTML, CSS e JavaScript realmente servidos no domínio público.
 // A Vercel pode informar deploy "Ready" enquanto um domínio ainda entrega código antigo.
 const origin='https://bievolicitacoes-gules.vercel.app';
-const release='bievo-typewriter-20261105-r5';
+const release='bievo-typewriter-20261105-r6';
 const checks=[
   {path:'/release.json',tokens:['"release": "'+release+'"']},
   {path:'/',tokens:['data-site-revision="'+release+'"','class="audience-card motion-card"','class="service motion-card"','class="testimonial featured motion-card"','styles.css?v='+release,'script.js?v='+release,'typewriter.js?v='+release,'id="opp-title" data-typewriter="scroll" tabindex="0"','id="method-title" data-typewriter="scroll" tabindex="0"','id="faq-title" data-typewriter="scroll" tabindex="0"']},
-  {path:'/styles.css?v='+release,tokens:['bievo-hero-breathe','--hero-zoom:1.023','.typing-title','--motion-photo']},
+  {path:'/styles.css?v='+release,tokens:['bievo-hero-breathe','--hero-zoom:1.023','.typing-title','--motion-photo','bievo-purpose-reveal']},
   {path:'/script.js?v='+release,tokens:['touch.matches','is-active']},
-  {path:'/typewriter.js?v='+release,tokens:['IntersectionObserver','typing-ghost','typewriterState','method-title','opp-title','faq-title','112','entryTimer','addEventListener']}
+  {path:'/typewriter.js?v='+release,tokens:['IntersectionObserver','typing-ghost','typewriterState','method-title','opp-title','faq-title','112','entryTimer','addEventListener','entry.intersectionRatio >= .42']}
 ];
 const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
 const attempts=8;
@@ -18,6 +18,7 @@ for(let attempt=1;attempt<=attempts;attempt++){
     try{
       const response=await fetch(url,{cache:'no-store',signal:AbortSignal.timeout(12000)});
       const body=await response.text();
+      if(check.path==='/' && body.includes('class="corner-label"'))errors.push(check.path+' frase removida ainda presente');
       if(!response.ok)errors.push(check.path+' HTTP '+response.status);
       else for(const token of check.tokens){
         if(!body.includes(token))errors.push(check.path+' falta '+JSON.stringify(token));
