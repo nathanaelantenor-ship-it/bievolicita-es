@@ -7,7 +7,8 @@ for(const view of [{name:'desktop',width:1440,height:900},{name:'mobile',width:3
  const errors=[],network=[];
  page.on('pageerror',e=>errors.push(e.message));
  page.on('response',r=>{if(/typewriter\.js/.test(r.url()))network.push({url:r.url(),status:r.status()})});
- await page.goto(url,{waitUntil:'networkidle',timeout:45000});
+ await page.goto(url,{waitUntil:'domcontentloaded',timeout:25000});
+ await page.waitForTimeout(2000);
  const data={view:view.name,version:await page.locator('html').getAttribute('data-site-revision'),reducedMotion:await page.evaluate(()=>matchMedia('(prefers-reduced-motion: reduce)').matches),errors,network,headings:[]};
  for(const id of ['opp-title','method-title','faq-title']){
    const locator=page.locator('#'+id);
