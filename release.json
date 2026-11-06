@@ -1,6 +1,6 @@
 {
   "project": "Bievo Licitações",
-  "release": "bievo-mobilemotion-20261105-r8",
+  "release": "bievo-final-whatsapp-20261105-r9",
   "source": "main",
   "features": [
     "hero-zoom",
@@ -17,6 +17,8 @@
     "evandro-proportional-layout",
     "svg-arrow-cross-device",
     "mobile-full-bleed-hero",
-    "typewriter-desktop-auto-reentry"
+    "typewriter-desktop-auto-reentry",
+    "whatsapp-svg-final",
+    "depoimento-fabio-henrique-sisto"
   ]
 }

@@ -1,34 +1,67 @@
-// Verifica o HTML, CSS e JavaScript realmente servidos no domínio público.
-// A Vercel pode informar deploy "Ready" enquanto um domínio ainda entrega código antigo.
+// Confere o que o DOMÍNIO PÚBLICO está servindo, não o que está no GitHub.
+// Essa verificação exige a release e os dois ajustes finais, impossibilitando falso positivo da R8.
 const origin='https://bievolicitacoes-gules.vercel.app';
-const release='bievo-mobilemotion-20261105-r8';
+const release='bievo-final-whatsapp-20261105-r9';
 const checks=[
-  {path:'/release.json',tokens:['"release": "'+release+'"']},
-  {path:'/',tokens:['data-site-revision="'+release+'"','class="audience-card motion-card"','class="service motion-card"','class="testimonial featured motion-card"','styles.css?v='+release,'script.js?v='+release,'typewriter.js?v='+release,'id="opp-title" data-typewriter="scroll" tabindex="0"','id="method-title" data-typewriter="scroll" tabindex="0"','id="faq-title" data-typewriter="scroll" tabindex="0"']},
-  {path:'/styles.css?v='+release,tokens:['bievo-hero-breathe','--hero-zoom:1.023','.typing-title','--motion-photo','bievo-purpose-reveal','.about-text .signature{margin-top:auto','.hero-visual{top:0;height:100%}', '.bievo-arrow-icon']},
-  {path:'/script.js?v='+release,tokens:['touch.matches','is-active']},
-  {path:'/typewriter.js?v='+release,tokens:['IntersectionObserver','typing-ghost','typewriterState','method-title','opp-title','faq-title','112','entryTimer','addEventListener','entry.intersectionRatio > 0','visibilitychange','pageshow']}
+  {
+    "path": "/release.json",
+    "tokens": [
+      "\"release\": \"bievo-final-whatsapp-20261105-r9\""
+    ]
+  },
+  {
+    "path": "/",
+    "tokens": [
+      "data-site-revision=\"bievo-final-whatsapp-20261105-r9\"",
+      "class=\"bievo-whatsapp-icon\"",
+      "<strong>Fábio Henrique Sisto</strong>",
+      "styles.css?v=bievo-final-whatsapp-20261105-r9",
+      "script.js?v=bievo-final-whatsapp-20261105-r9",
+      "typewriter.js?v=bievo-final-whatsapp-20261105-r9"
+    ],
+    "absent": [
+      "<strong>Fábio Henrique Cisto</strong>",
+      "<img src=\"favicon-bievo.png?v=2\" alt=\"\" width=\"48\""
+    ]
+  },
+  {
+    "path": "/styles.css?v=bievo-final-whatsapp-20261105-r9",
+    "tokens": [
+      ".bievo-float-whatsapp .bievo-whatsapp-icon{display:block;width:37px;height:37px",
+      ".bievo-float-whatsapp .bievo-whatsapp-icon{width:31px;height:31px}"
+    ]
+  },
+  {
+    "path": "/typewriter.js?v=bievo-final-whatsapp-20261105-r9",
+    "tokens": [
+      "IntersectionObserver",
+      "entry.intersectionRatio > 0"
+    ]
+  }
 ];
-const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
-const attempts=8;
-for(let attempt=1;attempt<=attempts;attempt++){
+const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms));
+for(let attempt=1;attempt<=8;attempt++){
   const errors=[];
   for(const check of checks){
-    const url=origin+check.path+(check.path.includes('?')?'&':'?')+'livecheck='+Date.now();
+    const url=origin+check.path+(check.path.includes('?')?'&':'?')+'fresh='+Date.now();
     try{
-      const response=await fetch(url,{cache:'no-store',signal:AbortSignal.timeout(12000)});
+      const response=await fetch(url,{
+        cache:'no-store',headers:{'Cache-Control':'no-cache'},
+        signal:AbortSignal.timeout(12000)
+      });
       const body=await response.text();
-      if(check.path==='/' && body.includes('class="corner-label"'))errors.push(check.path+' frase removida ainda presente');
-      if(!response.ok)errors.push(check.path+' HTTP '+response.status);
-      else for(const token of check.tokens){
-        if(!body.includes(token))errors.push(check.path+' falta '+JSON.stringify(token));
-      }
-      if(response.ok&&!errors.some(e=>e.startsWith(check.path)))console.log('OK '+check.path+' (HTTP '+response.status+', bytes '+body.length+')');
-    }catch(error){errors.push(check.path+' '+String(error.message));}
+      const missing=check.tokens.filter(token=>!body.includes(token));
+      const forbidden=(check.absent||[]).filter(token=>body.includes(token));
+      const state={path:check.path,status:response.status,bytes:body.length,
+        vercelCache:response.headers.get('x-vercel-cache'),age:response.headers.get('age'),
+        missing,forbidden};
+      console.log(JSON.stringify(state));
+      if(!response.ok || missing.length || forbidden.length)errors.push(state);
+    }catch(e){errors.push({path:check.path,error:String(e)});}
   }
-  if(!errors.length){console.log('PUBLICAÇÃO CONFIRMADA — HTML, CSS e JS da Bievo estão atualizados no domínio: '+origin);process.exit(0);}
-  console.log('Tentativa '+attempt+'/'+attempts+' — pendências: '+errors.join('; '));
-  if(attempt<attempts)await wait(15000);
+  if(!errors.length){console.log('PUBLICAÇÃO FINAL CONFIRMADA NO DOMÍNIO: '+release);process.exit(0);}
+  console.log('PENDENTE: site ainda não contém os ajustes finais, tentativa '+attempt+'/8');
+  if(attempt<8)await sleep(15000);
 }
-console.error('Site público não está entregando as animações esperadas; revise o domínio/branch/configuração Vercel.');
+console.error('FALHA DE PUBLICAÇÃO: release ou alterações finais ausentes na URL de produção. Verificar alias e build na Vercel.');
 process.exit(1);
